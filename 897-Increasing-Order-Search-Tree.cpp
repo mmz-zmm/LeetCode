@@ -6,23 +6,24 @@
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
- * right(right) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
 class Solution {
 public:
-    TreeNode *pre;
-    TreeNode *increasingBST(TreeNode *root) {
+    TreeNode * pre;
+    TreeNode* increasingBST(TreeNode* root) {
         pre = new TreeNode(-1);
-        TreeNode *res = pre;
+        TreeNode * p = pre;
         inorderTranversal(root);
-        return res->right;
+        TreeNode * res = p->right;
+        delete p;
+        return res;
     }
 
-    void inorderTranversal(TreeNode *root) {
-        if (root == nullptr) {
-            return;
+    void inorderTranversal(TreeNode * root) {
+        if(root == nullptr) {
+            return; 
         }
         inorderTranversal(root->left);
         root->left = nullptr;
