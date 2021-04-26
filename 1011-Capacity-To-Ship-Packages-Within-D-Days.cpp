@@ -1,37 +1,37 @@
 class Solution {
 public:
-    /*
-    二分法的扩展，类似于“猴子吃香蕉问题”0875-Koko-Eating-Bananas“
-    */
-    int shipWithinDays(vector<int>& weights, int D) {
-        int low = 0;
-        int high = accumulate(weights.begin(), weights.end(), 0);
+    int shipWithinDays(vector<int> &weights, int D) {
+        int left = 0;
+        int right = 0;
+        for (auto &weight : weights) {
+            left = max(left, weight);
+            right += weight;
+        }
 
-        if( D == 1) return high;
-
-        while(low < high) {
-            int mid = (high - low) / 2 + low;
-            if(canShip(weights, mid, D)) {
-                high = mid;
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (satisfy(weights, mid, D)) {
+                right = mid;
             } else {
-                low = mid + 1;
+                left = mid + 1;
             }
         }
-        return low;
+        return left;
     }
-
-    bool canShip(const vector<int>& weights, int capacity, int D) {
-        int day = 1;
-        int remain = capacity;
-        for(auto weight : weights) {
-            if(weight > capacity) return false;
-
-            remain -= weight;
-            if(remain < 0) {
+    bool satisfy(const vector<int> &weights, int capacity, int D) {
+        int day = 0;
+        int total = 0;
+        for (auto &w : weights) {
+            if (total + w > capacity) {
                 day++;
-                remain = capacity - weight;
+                total = 0;
+            }
+            total += w;
+            if (day > D) {
+                return false;
             }
         }
+        day += 1; //最后一批
 
         return day <= D;
     }
