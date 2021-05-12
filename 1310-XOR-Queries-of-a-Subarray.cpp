@@ -24,3 +24,24 @@ public:
         return ret;
     }
 };
+
+class Solution2 {
+public:
+    vector<int> xorQueries(vector<int>& arr, vector<vector<int>>& queries) {
+        vector<int> prefix_xor(arr.size() + 1);
+        
+        prefix_xor[0] = 0;
+        for(int i = 1; i < arr.size() + 1; ++i) {
+            prefix_xor[i] = prefix_xor[i - 1] ^ arr[i - 1];
+        }
+        
+        vector<int> res;
+        res.reserve(queries.size());
+
+        for(auto & query : queries) {
+            res.push_back(prefix_xor[query[1] + 1] ^ prefix_xor[query[0]]);
+        }
+
+        return res;
+    }
+};
