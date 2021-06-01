@@ -12,7 +12,7 @@ public:
         res.reserve(queries.size());
 
         int type, day, cap;
-        long long earliest, latest;
+        long long earliest, latest; // 注意为long long
         for(auto & query : queries) {
             type = query[0];
             day = query[1] + 1;
