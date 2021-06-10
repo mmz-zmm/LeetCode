@@ -11,13 +11,10 @@ public:
             return 1;
 
         vector<vector<int>> dp(sz + 1, vector<int>(amount + 1, 0));
-        // amount为0,那就只有一种组合，就是没有组合。
-        for (int i = 0; i <= sz; ++i) {
-            dp[i][0] = 1;
-        }
+        dp[0][0] = 1;
 
         for (int i = 1; i <= sz; ++i) {
-            for (int j = 1; j <= amount; ++j) {
+            for (int j = 0; j <= amount; ++j) {
                 if ((j - coins[i - 1]) >= 0) {
                     dp[i][j] = dp[i - 1][j] + dp[i][j - coins[i - 1]];
                 } else {
