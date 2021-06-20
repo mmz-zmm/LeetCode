@@ -60,3 +60,50 @@ public:
  * obj->death(name);
  * vector<string> param_3 = obj->getInheritanceOrder();
  */
+
+class ThroneInheritance2 {
+    struct Node {
+        unsigned short state;
+        vector<string> children;
+        Node() : state(1) {}
+    };
+    unordered_map<string, Node> record;
+    const string &kingName_;
+
+public:
+    ThroneInheritance(string kingName) : kingName_(kingName) {
+        record.emplace(kingName, Node());
+    }
+
+    void birth(string parentName, string childName) {
+        auto &parent = record[parentName];
+        parent.children.emplace_back(childName);
+    }
+
+    void death(string name) { record[name].state = 0; }
+
+    vector<string> getInheritanceOrder() {
+        vector<string> res;
+
+        function<void(const string &name)> preOrder = [&](const string &name) {
+            if (record[name].state) {
+                res.emplace_back(name);
+            }
+
+            for (const auto &child : record[name].children) {
+                preOrder(child);
+            }
+        };
+
+        preOrder(kingName_);
+        return res;
+    }
+};
+
+/**
+ * Your ThroneInheritance object will be instantiated and called as such:
+ * ThroneInheritance* obj = new ThroneInheritance(kingName);
+ * obj->birth(parentName,childName);
+ * obj->death(name);
+ * vector<string> param_3 = obj->getInheritanceOrder();
+ */
