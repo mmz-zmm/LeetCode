@@ -5,7 +5,7 @@ public:
         int n = citations.size();
 
         int left = 0;
-        int right = n;
+        int right = n - 1;
         int mid = 0;
 
         while (left < right) {
@@ -16,6 +16,6 @@ public:
                 left = mid + 1;
             }
         }
-        return n - left;
+        return citations[left] >= n - left ? n - left : 0;
     }
 };
